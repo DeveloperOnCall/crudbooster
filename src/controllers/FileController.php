@@ -32,13 +32,27 @@ class FileController extends Controller
         }
 
         $fullStoragePath = storage_path('app/'.$fullFilePath);
+        $sto_path = storage_path('app/');
+        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            $fullStoragePath = Storage::disk("tenant")->getDriver()->getAdapter()->getPathPrefix();
+            $sto_path = $fullStoragePath;
+            $fullStoragePath = $fullStoragePath.'/'.$fullFilePath;
+        }
         $lifetime = 31556926; // One year in seconds
 
         $handler = new \Symfony\Component\HttpFoundation\File\File(storage_path('app/'.$fullFilePath));
 
-        if (! Storage::exists($fullFilePath)) {
-            abort(404);
+        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if (! Storage::disk("tenant")->exists($fullFilePath)) {
+                abort(404);
+            }
         }
+        else{
+            if (! Storage::exists($fullFilePath)) {
+                abort(404);
+            }
+        }
+
 
         $extension = strtolower(File::extension($fullStoragePath));
         $images_ext = config('crudbooster.IMAGE_EXTENSIONS', 'jpg,png,gif,bmp');
@@ -110,9 +124,9 @@ class FileController extends Controller
             }
         } else {
             if (Request::get('download')) {
-                return Response::download(storage_path('app/'.$fullFilePath), $filename, $headers);
+                return Response::download($sto_path.$fullFilePath, $filename, $headers);
             } else {
-                return Response::file(storage_path('app/'.$fullFilePath), $headers);
+                return Response::file($sto_path.$fullFilePath, $headers);
             }
         }
     }

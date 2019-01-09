@@ -1714,9 +1714,18 @@ class CBController extends Controller
         $row = DB::table($this->table)->where($this->primary_key, $id)->first();
 
         $file = str_replace('uploads/', '', $row->{$column});
-        if (Storage::exists($file)) {
-            Storage::delete($file);
+        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            Storage::disk('tenant');
+            if (Storage::disk('tenant')->exists($file)) {
+                Storage::disk('tenant')->delete($file);
+            }
         }
+        else {
+            if (Storage::exists($file)) {
+                Storage::delete($file);
+            }
+        }
+
 
         DB::table($this->table)->where($this->primary_key, $id)->update([$column => null]);
 

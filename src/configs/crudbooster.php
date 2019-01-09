@@ -69,6 +69,17 @@ return [
     'ADMIN_LAYOUT' => '',
 
     /*
+     * This will enable/disable the multi-tenant system
+     *
+     * Currently only available option is https://github.com/hyn/multi-tenant
+     *
+     * Added the 'uses' option for future use
+     */
+    'MULTI_TENANT_ENABLED' => true, // default is false to ensure non-breaking for current CRUDBooster Installs
+
+    'MULTI_TENANT_USES' => 'hyn',
+
+    /*
     * NOTE :
     * Make sure yo clear your config cache by using command : php artisan config:clear
     */
