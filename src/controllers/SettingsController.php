@@ -123,15 +123,29 @@ class SettingsController extends CBController
                 $ext = $file->getClientOriginalExtension();
 
                 //Create Directory Monthly
-                $directory = 'uploads/'.date('Y-m');
-                Storage::makeDirectory($directory);
+                if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+                    $directory = 'uploads/'.date('Y-m');
+                    Storage::disk('tenant')->makeDirectory($directory);
 
-                //Move file to storage
-                $filename = md5(str_random(5)).'.'.$ext;
-                $storeFile = Storage::putFileAs($directory, $file, $filename);
-                if ($storeFile) {
-                    $content = $directory.'/'.$filename;
+                    //Move file to storage
+                    $filename = md5(str_random(5)).'.'.$ext;
+                    $storeFile = Storage::disk('tenant')->putFileAs($directory, $file, $filename);
+                    if ($storeFile) {
+                        $content = $directory.'/'.$filename;
+                    }
                 }
+                else {
+                    $directory = 'uploads/'.date('Y-m');
+                    Storage::makeDirectory($directory);
+
+                    //Move file to storage
+                    $filename = md5(str_random(5)).'.'.$ext;
+                    $storeFile = Storage::putFileAs($directory, $file, $filename);
+                    if ($storeFile) {
+                        $content = $directory.'/'.$filename;
+                    }
+                }
+
             }
 
             DB::table('cms_settings')->where('name', $set->name)->update(['content' => $content]);

@@ -34,13 +34,26 @@ class CRUDBooster
         @$mime_type = $mime_type[1];
         if ($mime_type) {
             $filePath = 'uploads/'.$userID.'/'.date('Y-m');
-		Storage::makeDirectory($filePath);
-		$filename = md5(str_random(5)).'.'.$mime_type;
-		if (Storage::put($filePath.'/'.$filename, $filedata)) {
-		    self::resizeImage($filePath.'/'.$filename);
+            if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+                Storage::disk('tenant')->makeDirectory($filePath);
+                $filename = md5(str_random(5)).'.'.$mime_type;
+                if (Storage::disk('tenant')->put($filePath.'/'.$filename, $filedata)) {
+                    self::resizeImage($filePath.'/'.$filename);
 
-		    return $filePath.'/'.$filename;
-		}
+                    return $filePath.'/'.$filename;
+                }
+            }
+            else {
+                Storage::makeDirectory($filePath);
+                $filename = md5(str_random(5)).'.'.$mime_type;
+                if (Storage::put($filePath.'/'.$filename, $filedata)) {
+                    self::resizeImage($filePath.'/'.$filename);
+
+                    return $filePath.'/'.$filename;
+                }
+            }
+
+
         }
     }
 
@@ -1087,7 +1100,14 @@ class CRUDBooster
         $tables = [];
         $multiple_db = config('crudbooster.MULTIPLE_DATABASE_MODULE');
         $multiple_db = ($multiple_db) ? $multiple_db : [];
-        $db_database = config('crudbooster.MAIN_DB_DATABASE');
+        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            $db_database = config('tenant');
+            \Config::set('database.default', 'tenant');
+        }
+        else{
+            $db_database = config('crudbooster.MAIN_DB_DATABASE');
+        }
+
 
         if ($multiple_db) {
             try {

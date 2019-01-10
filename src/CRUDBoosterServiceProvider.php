@@ -16,8 +16,9 @@ class CRUDBoosterServiceProvider extends ServiceProvider
      */
 
     public function boot()
-    {        
-                                
+    {
+
+        \Config::set('database.default', 'tenant');
         $this->loadViewsFrom(__DIR__.'/views', 'crudbooster');
         $this->publishes([__DIR__.'/configs/crudbooster.php' => config_path('crudbooster.php')],'cb_config');            
         $this->publishes([__DIR__.'/localization' => resource_path('lang')], 'cb_localization');                 
@@ -80,6 +81,7 @@ class CRUDBoosterServiceProvider extends ServiceProvider
         $loader->alias('Image', 'Intervention\Image\Facades\Image');
         $loader->alias('CRUDBooster', 'crocodicstudio\crudbooster\helpers\CRUDBooster');
         $loader->alias('CB', 'crocodicstudio\crudbooster\helpers\CB');
+        \Config::set('database.default', 'tenant');
     }
    
     private function registerCrudboosterCommand()
