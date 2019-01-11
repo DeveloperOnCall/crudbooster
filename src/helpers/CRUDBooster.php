@@ -34,7 +34,7 @@ class CRUDBooster
         @$mime_type = $mime_type[1];
         if ($mime_type) {
             $filePath = 'uploads/'.$userID.'/'.date('Y-m');
-            if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                 Storage::disk('tenant')->makeDirectory($filePath);
                 $filename = md5(str_random(5)).'.'.$mime_type;
                 if (Storage::disk('tenant')->put($filePath.'/'.$filename, $filedata)) {
@@ -77,7 +77,7 @@ class CRUDBooster
             $file_path = 'uploads/'.$userID.'/'.date('Y-m');
 
             //Create Directory Monthly
-            if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                 Storage::disk('tenant')->makeDirectory($file_path);
             }
             else{
@@ -90,7 +90,7 @@ class CRUDBooster
             } else {
                 $filename = str_slug($filename, '_').'.'.$ext;
             }
-            if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if( config('crudbooster.MULTI_TENANT_ENABLED') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                 if (Storage::disk('tenant')->putFileAs($file_path, $file, $filename)) {
 
                     self::resizeImage($file_path.'/'.$filename, $resize_width, $resize_height);
@@ -128,7 +128,7 @@ class CRUDBooster
         $file_path_thumbnail = 'uploads_thumbnail/'.date('Y-m');
         $upload_path = storage_path('app/');
 
-        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+        if( config('crudbooster.MULTI_TENANT_ENABLED') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
             Storage::disk("tenant")->makeDirectory($file_path_thumbnail);
             $upload_path = Storage::disk("tenant")->getDriver()->getAdapter()->getPathPrefix();
             $upload_path = $upload_path.'/';
@@ -1100,7 +1100,7 @@ class CRUDBooster
         $tables = [];
         $multiple_db = config('crudbooster.MULTIPLE_DATABASE_MODULE');
         $multiple_db = ($multiple_db) ? $multiple_db : [];
-        if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+        if( config('crudbooster.MULTI_TENANT_ENABLED') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
             $db_database = config('tenant');
             \Config::set('database.default', 'tenant');
         }

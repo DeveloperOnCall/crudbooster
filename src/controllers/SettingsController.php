@@ -123,7 +123,7 @@ class SettingsController extends CBController
                 $ext = $file->getClientOriginalExtension();
 
                 //Create Directory Monthly
-                if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+                if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                     $directory = 'uploads/'.date('Y-m');
                     Storage::disk('tenant')->makeDirectory($directory);
 

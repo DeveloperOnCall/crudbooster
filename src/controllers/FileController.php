@@ -33,7 +33,7 @@ class FileController extends Controller
 
         $fullStoragePath = storage_path('app/'.$fullFilePath);
         $sto_path = storage_path('app/');
-        if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+        if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
             $fullStoragePath = Storage::disk("tenant")->getDriver()->getAdapter()->getPathPrefix();
             $sto_path = $fullStoragePath;
             $fullStoragePath = $fullStoragePath.'/'.$fullFilePath;
@@ -42,7 +42,7 @@ class FileController extends Controller
 
         $handler = new \Symfony\Component\HttpFoundation\File\File(storage_path('app/'.$fullFilePath));
 
-        if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+        if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
             if (!Storage::disk("tenant")->exists($fullFilePath)) {
                 abort(404);
             }
