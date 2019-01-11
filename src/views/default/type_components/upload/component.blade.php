@@ -8,7 +8,23 @@
     <div class="{{$col_width?:'col-sm-10'}}">
         @if($value)
             <?php
-            if(Storage::exists($value) || file_exists($value)):
+            if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+                if(Storage::disk('tenant')->exists($value) || file_exists($value)) {
+                    $file_is = true;
+                }
+                else {
+                    $file_is = false;
+                }
+            }
+            else{
+                if(Storage::exists($value) || file_exists($value)) {
+                    $file_is = true;
+                }
+                else {
+                    $file_is = false;
+                }
+            }
+            if($file_is == true):
             $url = asset($value);
             $ext = pathinfo($url, PATHINFO_EXTENSION);
             $images_type = array('jpg', 'png', 'gif', 'jpeg', 'bmp', 'tiff');
