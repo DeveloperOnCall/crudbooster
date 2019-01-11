@@ -34,7 +34,7 @@ class CRUDBooster
         @$mime_type = $mime_type[1];
         if ($mime_type) {
             $filePath = 'uploads/'.$userID.'/'.date('Y-m');
-            if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                 Storage::disk('tenant')->makeDirectory($filePath);
                 $filename = md5(str_random(5)).'.'.$mime_type;
                 if (Storage::disk('tenant')->put($filePath.'/'.$filename, $filedata)) {
@@ -77,7 +77,7 @@ class CRUDBooster
             $file_path = 'uploads/'.$userID.'/'.date('Y-m');
 
             //Create Directory Monthly
-            if( config('crudbooster.MULTI_TENANT_ENABLE') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if( config('crudbooster.MULTI_TENANT_ENABLE') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
                 Storage::disk('tenant')->makeDirectory($file_path);
             }
             else{
