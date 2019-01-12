@@ -867,10 +867,19 @@ class CRUDBooster
     public static function parseSqlTable($table)
     {
 
+        if( config('crudbooster.MULTI_TENANT_ENABLED') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            $website   = \Hyn\Tenancy\Facades\TenancyFacade::website();
+            $db_database = $website->uuid;
+            $table = $db_database.'.'.$table;
+        }
+        else {
+            $db_database = config('crudbooster.MAIN_DB_DATABASE');
+        }
+
         $f = explode('.', $table);
 
         if (count($f) == 1) {
-            return ["table" => $f[0], "database" => config('crudbooster.MAIN_DB_DATABASE')];
+            return ["table" => $f[0], "database" => $db_database];
         } elseif (count($f) == 2) {
             return ["database" => $f[0], "table" => $f[1]];
         } elseif (count($f) == 3) {
@@ -1101,8 +1110,8 @@ class CRUDBooster
         $multiple_db = config('crudbooster.MULTIPLE_DATABASE_MODULE');
         $multiple_db = ($multiple_db) ? $multiple_db : [];
         if( config('crudbooster.MULTI_TENANT_ENABLED') && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
-            $db_database = config('tenant');
-            \Config::set('database.default', 'tenant');
+            $website   = \Hyn\Tenancy\Facades\TenancyFacade::website();
+            $db_database = $website->uuid;
         }
         else{
             $db_database = config('crudbooster.MAIN_DB_DATABASE');
