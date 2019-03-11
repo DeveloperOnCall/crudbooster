@@ -789,6 +789,10 @@ class CRUDBooster
             $html = str_replace('['.$key.']', $val, $html);
             $template->subject = str_replace('['.$key.']', $val, $template->subject);
         }
+        // Add an unsubscribe code to the email
+            $unsub_code = \Illuminate\Support\Facades\Crypt::encryptString($to);
+            $html = str_replace('[unsub_code]', $unsub_code, $html);
+
         $subject = $template->subject;
         $attachments = ($config['attachments']) ?: [];
 
