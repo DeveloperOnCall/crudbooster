@@ -802,6 +802,8 @@ class CRUDBooster
         // Add an unsubscribe code to the email
             $unsub_code = \Illuminate\Support\Facades\Crypt::encryptString($to);
             $html = str_replace('[unsub_code]', $unsub_code, $html);
+            $html = str_replace('[%5Bunsub_code%5D]', $unsub_code, $html);
+            $html = str_replace('%%unsub_code%%', $unsub_code, $html);
 
         $subject = $template->subject;
         $attachments = ($config['attachments']) ?: [];
