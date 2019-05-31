@@ -1,0 +1,40 @@
+	#table-module thead tr th {
+		border: 1px solid #cccccc;
+		white-space: nowrap;
+        font-size: 12px;
+	}
+	#table-module tbody tr td {
+		border: 1px solid #cccccc;
+        font-size: 12px;
+	}
+	.select2-container--default .select2-selection--single {border-radius: 0px !important; border: 1px solid #dddddd !important;}
+	.select2-container .select2-selection--single {height: 35px !important;}
+	.select2 {
+		width: 100%;
+	}
+	.select2-dropdown {z-index: 9999 !important}
+
+	.bootstrap-timepicker-minute,.bootstrap-timepicker-hour,.bootstrap-timepicker-meridian,.bootstrap-timepicker-second {
+		width:50px !important;
+	}
+
+	::-webkit-scrollbar {
+	    width: 7px;
+	}
+
+	::-webkit-scrollbar-track {
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	}
+	::-webkit-scrollbar-thumb {
+	    background: #dddddd;
+	}	
+
+	.datepicker{z-index:1151 !important;}
+
+	.btn-group-action .btn-action {
+		cursor: default
+	}
+
+	.form-group > label:first-child {
+		display: block
+	}
