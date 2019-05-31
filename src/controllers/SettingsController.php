@@ -88,8 +88,15 @@ class SettingsController extends CBController
         $id = g('id');
         $row = CRUDBooster::first('cms_settings', $id);
         Cache::forget('setting_'.$row->name);
-        if (Storage::exists($row->content)) {
-            Storage::delete($row->content);
+        if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
+            if (Storage::disk("tenant")->exists($row->content)) {
+                Storage::disk("tenant")->delete($row->content);
+            }
+        }
+        else {
+            if (Storage::exists($row->content)) {
+                Storage::delete($row->content);
+            }
         }
         DB::table('cms_settings')->where('id', $id)->update(['content' => null]);
         CRUDBooster::redirect(Request::server('HTTP_REFERER'), trans('alert_delete_data_success'), 'success');

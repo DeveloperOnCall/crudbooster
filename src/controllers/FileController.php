@@ -40,7 +40,7 @@ class FileController extends Controller
         }
         $lifetime = 31556926; // One year in seconds
 
-        $handler = new \Symfony\Component\HttpFoundation\File\File(storage_path('app/'.$fullFilePath));
+
 
         if( config('crudbooster.MULTI_TENANT_ENABLED') == true && config('crudbooster.MULTI_TENANT_USES') == 'hyn'){
             if (!Storage::disk("tenant")->exists($fullFilePath)) {
@@ -53,6 +53,7 @@ class FileController extends Controller
             }
         }
 
+        $handler = new \Symfony\Component\HttpFoundation\File\File($fullStoragePath);
 
         $extension = strtolower(File::extension($fullStoragePath));
         $images_ext = config('crudbooster.IMAGE_EXTENSIONS', 'jpg,png,gif,bmp');

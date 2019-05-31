@@ -163,7 +163,7 @@ class MenusController extends CBController
             "name" => "name",
             "type" => "text",
             "required" => true,
-            "validation" => "required|min:3|max:255|alpha_num_spaces",
+            "validation" => "required|min:3|max:255",
             "placeholder" => "You can only enter alphanumeric character and spaces only",
         ];
         $this->form[] = [
@@ -271,7 +271,7 @@ class MenusController extends CBController
 
         $return_url = Request::fullUrl();
 
-        $page_title = 'Menu Management';
+        $page_title = trans('crudbooster.Menu Management');
 
         return view('crudbooster::menus_management', compact('menu_active', 'menu_inactive', 'privileges', 'id_cms_privileges', 'return_url', 'page_title'));
     }
