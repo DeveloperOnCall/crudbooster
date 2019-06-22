@@ -68,9 +68,21 @@ class SettingsController extends CBController
     {
         $this->cbLoader();
 
-        if (! CRUDBooster::isSuperadmin()) {
-            CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
-            CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+        if(config('crudbooster.USE_ROLES')){
+            $user = User::find(\Auth::user()->id);
+            if( $user->hasRole('siteadmin') || $user->hasRole('admin'))
+                $permission = true;
+
+            if(! $permission ) {
+                CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
+                CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+            }
+        }
+        else {
+            if (! CRUDBooster::isSuperadmin()) {
+                CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
+                CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+            }
         }
 
         $data['page_title'] = urldecode(Request::get('group'));
@@ -105,9 +117,21 @@ class SettingsController extends CBController
     function postSaveSetting()
     {
 
-        if (! CRUDBooster::isSuperadmin()) {
-            CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
-            CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+        if(config('crudbooster.USE_ROLES')){
+            $user = \App\Models\User::find(\Auth::user()->id);
+            if( $user->hasRole('siteadmin') || $user->hasRole('admin'))
+                $permission = true;
+
+            if(! $permission ) {
+                CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
+                CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+            }
+        }
+        else {
+            if (! CRUDBooster::isSuperadmin()) {
+                CRUDBooster::insertLog(trans("crudbooster.log_try_view", ['name' => 'Setting', 'module' => 'Setting']));
+                CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+            }
         }
 
         $group = Request::get('group_setting');

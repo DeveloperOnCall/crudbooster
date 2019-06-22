@@ -1,3 +1,3 @@
 @push('bottom')
-    <script src="{{asset('vendor/laravel-filemanager/js/lfm.js')}}"></script>
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 @endpush

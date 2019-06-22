@@ -4,8 +4,8 @@
             {{ basename($value) }}
         </a>
     @else
-        <a data-lightbox="roadtrip" href="{{asset($value)}}">
-            <img src="{{asset($value)}}" style="max-width: 150px">
+        <a data-lightbox="roadtrip" href="{{asset('img/'.$value)}}">
+            <img src="{{asset('img/'.$value)}}" style="max-width: 150px">
         </a>
     @endif
 @endif

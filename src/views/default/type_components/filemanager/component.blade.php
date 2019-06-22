@@ -35,8 +35,8 @@
                                  href='javascript:void(0)' title='{{trans('crudbooster.text_delete')}}'><i class='fa fa-ban'></i></a>
                     </div>@endif
             @else
-                <p><a data-lightbox="roadtrip" href="{{ ($value)?asset($value):'' }}"><img id='holder-{{$name}}'
-                                                                                           {{ ($value)?'src='.asset($value):'' }} style="margin-top:15px;max-height:100px;"></a>
+                <p><a data-lightbox="roadtrip" href="{{ ($value)?asset('img/'.$value):'' }}"><img id='holder-{{$name}}'
+                                                                                           {{ ($value)?'src='.asset('img/'.$value):'' }} style="margin-top:15px;max-height:100px;"></a>
                 </p>
             @endif
 
@@ -54,10 +54,10 @@
 </div>
 @if(@$form['filemanager_type'])
     @push('bottom')
-        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('file', {prefix: "{{url(config('lfm.prefix'))}}"});</script>
+        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('file');</script>
     @endpush
 @else
     @push('bottom')
-        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('images', {prefix: "{{url(config('lfm.prefix'))}}"});</script>
+        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('images');</script>
     @endpush
 @endif
