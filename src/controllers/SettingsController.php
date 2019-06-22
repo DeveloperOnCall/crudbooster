@@ -69,7 +69,7 @@ class SettingsController extends CBController
         $this->cbLoader();
 
         if(config('crudbooster.USE_ROLES')){
-            $user = User::find(\Auth::user()->id);
+            $user = \App\Models\User::find(\Auth::user()->id);
             if( $user->hasRole('siteadmin') || $user->hasRole('admin'))
                 $permission = true;
 
