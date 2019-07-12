@@ -29,7 +29,8 @@
         "imanghafoori/laravel-heyman": "2.*",
         "imanghafoori/laravel-widgetize": "1.8.*"
     },
-    "repositories": [
+    "repositories":
+    [
         {
             "type": "vcs",
             "url": "https://github.com/DeveloperOnCall/laravel-filemanager"
@@ -40,5 +41,4 @@
           "crocodicstudio\\crudbooster\\": "src/"
         }
       }
-
 }
